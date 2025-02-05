@@ -14,12 +14,15 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('genre');
             $table->longText('description');
             $table->decimal('price');
             $table->string('cover_image');
             $table->string('download_url');
             $table->date('release_date');
-            $table->string('genre');
+            $table->date('updated_at');
+            $table->date('created_at');
+
         });
     }
 
