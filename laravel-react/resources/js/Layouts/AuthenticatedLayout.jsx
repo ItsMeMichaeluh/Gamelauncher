@@ -3,13 +3,27 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
+    const [walletBalance, setWalletBalance] = useState(0);
+    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+    useEffect(() => {
+        axios.get('/api/wallet-balance', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`, // Zorg dat de token correct wordt meegestuurd
+            },
+        })
+        .then(response => {
+            setWalletBalance(response.data.wallet_balance);
+        })
+        .catch(error => {
+            console.error("Error fetching wallet balance:", error);
+        });
+    }, []);
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -31,18 +45,16 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Dashboard
                                 </NavLink>
                             </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
-                                    href={route('games')}
-                                    active={route().current('games')}
-                                >
-                                    Games
-                                </NavLink>
-                            </div>
                         </div>
 
-                        <div className="hidden sm:ms-6 sm:flex sm:items-center">
+                        {/* Wallet Balance + User Info */}
+                        <div className="hidden sm:ms-6 sm:flex sm:items-center space-x-4">
+                            {/* Wallet Balance Display */}
+                            <span className="text-gray-700 font-medium">
+                                Saldo: €{walletBalance.toFixed(2)}
+                            </span>
+
+                            {/* User Dropdown */}
                             <div className="relative ms-3">
                                 <Dropdown>
                                     <Dropdown.Trigger>
@@ -70,9 +82,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link
-                                            href={route('profile.edit')}
-                                        >
+                                        <Dropdown.Link href={route('profile.edit')}>
                                             Profile
                                         </Dropdown.Link>
                                         <Dropdown.Link
@@ -87,38 +97,22 @@ export default function AuthenticatedLayout({ header, children }) {
                             </div>
                         </div>
 
+                        {/* Mobile Menu Button */}
                         <div className="-me-2 flex items-center sm:hidden">
                             <button
-                                onClick={() =>
-                                    setShowingNavigationDropdown(
-                                        (previousState) => !previousState,
-                                    )
-                                }
+                                onClick={() => setShowingNavigationDropdown(prev => !prev)}
                                 className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
                             >
-                                <svg
-                                    className="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
+                                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
-                                        className={
-                                            !showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
+                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
                                         d="M4 6h16M4 12h16M4 18h16"
                                     />
                                     <path
-                                        className={
-                                            showingNavigationDropdown
-                                                ? 'inline-flex'
-                                                : 'hidden'
-                                        }
+                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth="2"
@@ -130,17 +124,10 @@ export default function AuthenticatedLayout({ header, children }) {
                     </div>
                 </div>
 
-                <div
-                    className={
-                        (showingNavigationDropdown ? 'block' : 'hidden') +
-                        ' sm:hidden'
-                    }
-                >
+                {/* Mobile Navigation */}
+                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            href={route('dashboard')}
-                            active={route().current('dashboard')}
-                        >
+                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
                         </ResponsiveNavLink>
                     </div>
@@ -159,11 +146,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             <ResponsiveNavLink href={route('profile.edit')}>
                                 Profile
                             </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route('logout')}
-                                as="button"
-                            >
+                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                 Log Out
                             </ResponsiveNavLink>
                         </div>

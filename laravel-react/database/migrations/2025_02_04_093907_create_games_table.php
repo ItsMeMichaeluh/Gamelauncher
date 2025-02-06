@@ -19,6 +19,10 @@ return new class extends Migration
             $table->decimal('price');
             $table->string('cover_image');
             $table->string('download_url');
+            $table->string('developer');
+            $table->string('publisher');
+            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->date('release_date');
             $table->date('updated_at');
             $table->date('created_at');
