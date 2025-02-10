@@ -9,14 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-            $table->string('game_id');
-            $table->date('purchase_date');
-            $table->string('transaction_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('game_id')->constrained()->onDelete('cascade');
+            $table->timestamp('purchase_date');
+            $table->timestamps();
         });
     }
 

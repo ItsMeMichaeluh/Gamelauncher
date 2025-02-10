@@ -45,4 +45,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function purchasedGames()
+{
+    return $this->belongsToMany(Game::class, 'purchases')
+                ->withTimestamps()
+                ->withPivot('purchase_date');
+}
 }

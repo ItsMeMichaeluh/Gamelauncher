@@ -15,8 +15,14 @@ Route::get('/', function () {
     ]);
 });
 
+// Verander deze route
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    // Haal de games op die de ingelogde gebruiker bezit
+    $purchasedGames = Auth::user()->purchasedGames;
+    
+    return Inertia::render('Library', [
+        'purchasedGames' => $purchasedGames
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

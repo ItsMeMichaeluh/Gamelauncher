@@ -34,7 +34,21 @@ class GamesTableSeeder extends Seeder
             'publisher' => 'InnerSloth',
             'is_featured' => true,
             'is_active' => true,
-            'cover_image' => '/games/among-us.jpg',  // Je moet deze afbeelding nog toevoegen
+            'cover_image' => '/games/amongus.png',  // Je moet deze afbeelding nog toevoegen
+            'download_url' => ''
+        ]);
+
+        Game::create([
+            'title' => 'Fornite',
+            'description' => 'An online multiplayer shooter where u can build!.',
+            'price' => 0.00,
+            'genre' => 'Action',
+            'release_date' => '2017-07-21',
+            'developer' => 'People Can Fly',
+            'publisher' => 'Epic games',
+            'is_featured' => true,
+            'is_active' => true,
+            'cover_image' => '/games/fornite.png',  // Je moet deze afbeelding nog toevoegen
             'download_url' => ''
         ]);
 

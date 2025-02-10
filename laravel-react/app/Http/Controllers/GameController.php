@@ -25,4 +25,18 @@ class GameController extends Controller
             'game' => $game
         ]);
     }
+
+    public function store(Request $request)
+{
+    $request->validate([
+        'cover_image' => 'required|image|mimes:jpg,png,jpeg|max:2048',
+    ]);
+
+    // Sla de afbeelding op in storage/app/public/images
+    $path = $request->file('cover_image')->store('games', 'public');
+
+    return response()->json(['path' => $path]);
+}
+
+
 }
