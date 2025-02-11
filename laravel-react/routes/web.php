@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\CartController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,7 +34,12 @@ Route::middleware('auth')->group(function () {
     // Voeg deze game routes toe
     Route::get('/games', [GameController::class, 'index'])->name('games.index');
     Route::get('/games/{game}', [GameController::class, 'show'])->name('games.show');
+
+    
 });
 
+Route::get('/Cart', function () {
+    return Inertia::render('Cart');
+})->middleware(['auth'])->name('Cart');
 
 require __DIR__.'/auth.php';

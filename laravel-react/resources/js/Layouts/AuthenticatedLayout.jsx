@@ -56,7 +56,13 @@ export default function AuthenticatedLayout({ header, children }) {
                             <span className="text-gray-700 font-medium">
                                 Saldo: €{walletBalance.toFixed(2)}
                             </span>
-
+                            
+                            <NavLink
+                                    href={route('Cart')}
+                                    active={route().current('Cart')}
+                                >
+                                    <a href="https://img.icons8.com/?size=100&id=CE7rP-35_XQR&format=png&color=000000" title="cart icons"></a>
+                                </NavLink>
                             {/* User Dropdown */}
                             <div className="relative ms-3">
                                 <Dropdown>
