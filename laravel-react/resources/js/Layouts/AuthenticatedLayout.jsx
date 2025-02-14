@@ -61,7 +61,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     href={route('Cart')}
                                     active={route().current('Cart')}
                                 >
-                                    <a href="https://img.icons8.com/?size=100&id=CE7rP-35_XQR&format=png&color=000000" title="cart icons"></a>
+                                    <a href="https://img.icons8.com/?size=100&id=CE7rP-35_XQR&format=png&color=000000" title="cart icons">cart</a>
                                 </NavLink>
                             {/* User Dropdown */}
                             <div className="relative ms-3">
