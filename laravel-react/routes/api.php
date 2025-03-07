@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route; 
 
 Route::middleware('auth:sanctum')->get('/wallet-balance', function (Request $request) {
     return response()->json([
