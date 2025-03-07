@@ -11,7 +11,7 @@ Route::middleware('auth:sanctum')->get('/wallet-balance', function (Request $req
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/Cart', [CartController::class, 'index']);
-    Route::post('/Cart', [CartController::class, 'add']);
-    Route::delete('/Cart/{id}', [CartController::class, 'remove']);
+    Route::get('products', [ProductController::class, 'index']);
+    Route::post('order/store', [OrderController::class, 'store']);
+    Route::post('order/pay', [OrderController::class, 'payByStripe']);
 });
